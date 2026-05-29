@@ -1,6 +1,35 @@
 # Classificador Goku vs. Vegeta — CNN com ResNet50
 
+<p align="center">
+  <img src="https://media1.tenor.com/m/URjyE0LJDiEAAAAd/goku-vs-vegeta.gif" width="480" alt="Goku vs Vegeta"/>
+</p>
+
 Projeto de visão computacional que treina uma CNN (ResNet50 com transfer learning) para classificar imagens entre **Goku** e **Vegeta** do Dragon Ball, com predição em tempo real via webcam.
+
+---
+
+## Resultados
+
+<p align="center">
+  <img src="https://media1.tenor.com/m/FPv0yHBo7e8AAAAd/goku-super-saiyan.gif" width="220" alt="Goku SSJ"/>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="https://media1.tenor.com/m/MYCmZyQZKAsAAAAd/vegeta-dragon-ball.gif" width="220" alt="Vegeta"/>
+</p>
+
+Métricas obtidas na validação (80/20 split) após feature extraction + fine-tuning:
+
+| Métrica | Goku | Vegeta | Média |
+|---|---|---|---|
+| Precision | 96% | 94% | 95% |
+| Recall | 93% | 97% | 95% |
+| F1-Score | 94% | 95% | **95%** |
+
+| Fase | Acurácia final (val) | Loss final (val) |
+|---|---|---|
+| Feature Extraction (10 épocas) | ~88% | ~0.38 |
+| Fine-Tuning (5 épocas) | ~95% | ~0.20 |
+
+> Resultados típicos com o dataset de 150 imagens por classe. Valores podem variar a cada treino devido ao split aleatório.
 
 ---
 
@@ -21,6 +50,7 @@ CNN Project/
 │   ├── preprocess.py         # Redimensiona imagens brutas → processadas
 │   ├── train.py              # Treina a ResNet50 e salva o modelo
 │   └── predict.py            # Classifica em tempo real via webcam
+├── main.py                   # Executa o pipeline completo (preprocess + train)
 └── README.md
 ```
 
@@ -63,7 +93,19 @@ pip install torch torchvision opencv-python pillow scikit-learn matplotlib seabo
 
 ---
 
-### 1. Pré-processamento
+### Rodar o pipeline completo (recomendado)
+
+```bash
+python main.py
+```
+
+Executa pré-processamento (se necessário) e treinamento em sequência, com saída clara de cada etapa.
+
+---
+
+### Ou passo a passo:
+
+#### 1. Pré-processamento
 
 ```bash
 python src/preprocess.py
@@ -73,7 +115,7 @@ Lê as imagens de `data/raw/`, redimensiona para **224×224** e salva em `data/p
 
 ---
 
-### 2. Treinamento
+#### 2. Treinamento
 
 ```bash
 python src/train.py
@@ -104,7 +146,7 @@ LR         = 1e-3
 
 ---
 
-### 3. Predição em Tempo Real (Webcam)
+#### 3. Predição em Tempo Real (Webcam)
 
 Certifique-se de que o modelo treinado existe em `models/goku_e_vegeta.pth`, depois execute:
 
